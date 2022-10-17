@@ -1,0 +1,25 @@
+{
+    "nodes": {
+        "a": {
+            "links": [
+                {
+                    "destination": "b",
+                    "condition": {
+                        "type": "logic",
+                        "operation": "&&",
+                        "conditions": [
+                            {
+                                "type": "constant",
+                                "value": true
+                            },
+                            {
+                                "type": "constant",
+                                "value": false
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+
+group 'com.redsponge'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0'
+    implementation "com.badlogicgames.gdx:gdx:1.11.0"
+    testImplementation "com.badlogicgames.gdx:gdx:1.11.0"
+}
+
+ext {
+    gdxVersion = '1.11.0'
+}
+
+test {
+    useJUnitPlatform()
+}

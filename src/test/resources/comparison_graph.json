@@ -1,0 +1,23 @@
+{
+    "nodes": {
+        "a": {
+            "links": [
+                {
+                    "destination": "b",
+                    "condition": {
+                        "type": "comparison",
+                        "comparison": "equals",
+                        "value_1": {
+                            "type": "value",
+                            "value": false
+                        },
+                        "value_2": {
+                            "type": "value",
+                            "value": 2
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

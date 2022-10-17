@@ -1,0 +1,15 @@
+{
+    "nodes": {
+        "a": {
+            "links": [
+                {
+                    "destination": "b",
+                    "condition": {
+                        "type": "constant",
+                        "value": true
+                    }
+                }
+            ]
+        }
+    }
+}

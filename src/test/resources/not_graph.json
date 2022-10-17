@@ -1,0 +1,18 @@
+{
+    "nodes": {
+        "a": {
+            "links": [
+                {
+                    "destination": "b",
+                    "condition": {
+                        "type": "not",
+                        "condition": {
+                            "type": "constant",
+                            "value": false
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}
