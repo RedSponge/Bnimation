@@ -14,11 +14,11 @@ public enum LogicalOperation implements Operation {
     ;
 
     private final BinaryOperator<Boolean> operator;
-    private final String repr;
+    private final String symbol;
 
-    LogicalOperation(BinaryOperator<Boolean> operator, String repr) {
+    LogicalOperation(BinaryOperator<Boolean> operator, String symbol) {
         this.operator = operator;
-        this.repr = repr;
+        this.symbol = symbol;
     }
 
     @Override
@@ -28,6 +28,10 @@ public enum LogicalOperation implements Operation {
 
     @Override
     public String toString() {
-        return repr;
+        return symbol;
+    }
+
+    public String getSymbol() {
+        return symbol;
     }
 }

@@ -1,12 +1,11 @@
 package com.redsponge.bnimation.graph;
 
 import com.badlogic.gdx.utils.JsonValue;
-import com.redsponge.bnimation.graph.conditions.BooleanCondition;
-import com.redsponge.bnimation.graph.conditions.NotCondition;
+import com.redsponge.bnimation.graph.conditions.*;
 import com.redsponge.bnimation.graph.conditions.comparison.Comparison;
-import com.redsponge.bnimation.graph.conditions.ComparisonCondition;
-import com.redsponge.bnimation.graph.conditions.Condition;
 import com.redsponge.bnimation.graph.conditions.comparison.Comparisons;
+import com.redsponge.bnimation.graph.conditions.operation.LogicalOperation;
+import com.redsponge.bnimation.graph.conditions.operation.Operation;
 import com.redsponge.bnimation.graph.value.ConstantValue;
 import com.redsponge.bnimation.graph.value.Value;
 
@@ -20,6 +19,10 @@ public class Parser {
     private final Map<String, Function<JsonValue, Condition>> conditionParsers;
     private final Map<String, Function<JsonValue, Value<?>>> valueParsers;
 
+    private final Map<String, Comparison> comparisons;
+
+    private final Map<String, Operation> operations;
+
     public Parser() {
         this.conditionParsers = new HashMap<>();
 
@@ -30,7 +33,16 @@ public class Parser {
 
         this.valueParsers = new HashMap<>();
         this.valueParsers.put("value", this::parseConstantValue);
-//        this.valueParsers.put("variable", this::parseVariable);
+
+        this.comparisons = new HashMap<>();
+        for (Comparisons value : Comparisons.values()) {
+            this.comparisons.put(value.getSymbol(), value);
+        }
+
+        this.operations = new HashMap<>();
+        for (LogicalOperation value : LogicalOperation.values()) {
+            this.operations.put(value.getSymbol(), value);
+        }
     }
 
     private Condition parseConstantCondition(JsonValue jsonValue) {
@@ -70,7 +82,7 @@ public class Parser {
     private Condition parseComparisonCondition(JsonValue condition) {
         String comparisonType = condition.getString("comparison");
 
-        Comparison comparison = Comparisons.getBySymbolOrName(comparisonType);
+        Comparison comparison = this.comparisons.get(comparisonType);
 
         Value<?> value1 = parseValue(condition.get("value_1"));
         Value<?> value2 = parseValue(condition.get("value_2"));
@@ -109,7 +121,17 @@ public class Parser {
     }
 
     private Condition parseLogicalCondition(JsonValue condition) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        String operationType = condition.getString("operation");
+
+        Operation operation = this.operations.get(operationType);
+
+        JsonValue conditionsJson = condition.get("conditions");
+        Condition[] conditions = new Condition[conditionsJson.size];
+        for (int i = 0; i < conditions.length; i++) {
+            conditions[i] = parseCondition(conditionsJson.get(i));
+        }
+
+        return new OperatorCondition(operation, conditions);
     }
 
 

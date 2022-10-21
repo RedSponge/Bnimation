@@ -6,7 +6,7 @@
                     "destination": "b",
                     "condition": {
                         "type": "comparison",
-                        "comparison": "equals",
+                        "comparison": "==",
                         "value_1": {
                             "type": "value",
                             "value": false

@@ -43,7 +43,7 @@ public class Graph {
         if(recursionLimit == 0) return;
 
         Node current = getCurrentNode();
-        current.test(this).ifPresent(newCurrent -> {
+        current.test().ifPresent(newCurrent -> {
             this.currentNode = newCurrent;
             update(recursionLimit - 1);
         });

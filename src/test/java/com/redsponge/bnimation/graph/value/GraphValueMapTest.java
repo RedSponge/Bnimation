@@ -24,6 +24,7 @@ public class GraphValueMapTest {
         assertEquals(map.getFloatRef("ho").get(), 1.f);
     }
 
+    @Test
     void testBoolean() {
         GraphValueMap map = new GraphValueMap();
         map.put("he", false);

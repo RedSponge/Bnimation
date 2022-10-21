@@ -22,6 +22,10 @@ public enum Comparisons implements Comparison {
         return comparison.resolve(comparatorResult);
     }
 
+    public String getSymbol() {
+        return symbol;
+    }
+
     @Override
     public String toString() {
         return symbol;
