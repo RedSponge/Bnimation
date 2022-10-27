@@ -14,7 +14,7 @@ public class TestParser {
 
     @Test
     void testParserComparisonCondition() {
-        Parser p = new Parser();
+        Parser p = Parser.getDefaultParser();
         Graph g = p.parse(new JsonReader().parse(TestUtils.readFile("src/test/resources/comparison_graph.json")));
 
         Condition condition = g.getNode("a").getLink("b").orElseThrow().getCondition();
@@ -25,7 +25,7 @@ public class TestParser {
 
     @Test
     void testParserNotCondition() {
-        Parser p = new Parser();
+        Parser p = Parser.getDefaultParser();
         Graph g = p.parse(new JsonReader().parse(TestUtils.readFile("src/test/resources/not_graph.json")));
 
         Condition condition = g.getNode("a").getLink("b").orElseThrow().getCondition();
@@ -38,7 +38,7 @@ public class TestParser {
 
     @Test
     void testParserConstantCondition() {
-        Parser p = new Parser();
+        Parser p = Parser.getDefaultParser();
         Graph g = p.parse(new JsonReader().parse(TestUtils.readFile("src/test/resources/constant_condition.json")));
 
         Condition c = g.getNode("a").getLink("b").orElseThrow().getCondition();
@@ -48,7 +48,7 @@ public class TestParser {
 
     @Test
     void testParserLogicGraph() {
-        Parser p = new Parser();
+        Parser p = Parser.getDefaultParser();
         Graph g = p.parse(new JsonReader().parse(TestUtils.readFile("src/test/resources/logic_graph.json")));
 
         Condition c = g.getNode("a").getLink("b").orElseThrow().getCondition();

@@ -25,24 +25,30 @@ public class Parser {
 
     public Parser() {
         this.conditionParsers = new HashMap<>();
-
-        this.conditionParsers.put("comparison", this::parseComparisonCondition);
-        this.conditionParsers.put("logic", this::parseLogicalCondition);
-        this.conditionParsers.put("not", this::parseNotCondition);
-        this.conditionParsers.put("constant", this::parseConstantCondition);
-
         this.valueParsers = new HashMap<>();
-        this.valueParsers.put("value", this::parseConstantValue);
-
         this.comparisons = new HashMap<>();
+        this.operations = new HashMap<>();
+    }
+
+    public static Parser getDefaultParser() {
+        Parser p = new Parser();
+
+        p.conditionParsers.put("comparison", p::parseComparisonCondition);
+        p.conditionParsers.put("logic", p::parseLogicalCondition);
+        p.conditionParsers.put("not", p::parseNotCondition);
+        p.conditionParsers.put("constant", p::parseConstantCondition);
+
+        p.valueParsers.put("value", p::parseConstantValue);
+
         for (Comparisons value : Comparisons.values()) {
-            this.comparisons.put(value.getSymbol(), value);
+            p.comparisons.put(value.getSymbol(), value);
         }
 
-        this.operations = new HashMap<>();
         for (LogicalOperation value : LogicalOperation.values()) {
-            this.operations.put(value.getSymbol(), value);
+            p.operations.put(value.getSymbol(), value);
         }
+
+        return p;
     }
 
     private Condition parseConstantCondition(JsonValue jsonValue) {
@@ -56,7 +62,7 @@ public class Parser {
         for (JsonValue jsonNode : nodes) {
             Node node = output.addNode(jsonNode.name);
             JsonValue jsonLinks = jsonNode.get("links");
-            for(JsonValue jsonLink : jsonLinks) {
+            for (JsonValue jsonLink : jsonLinks) {
                 node.addLink(parseLink(jsonLink));
             }
         }
@@ -97,9 +103,9 @@ public class Parser {
     private Value<?> parseConstantValue(JsonValue value) {
         value = value.get("value"); // Unwrap json
 
-        if(value.isBoolean()) return ConstantValue.booleanValue(value.asBoolean());
-        if(value.isDouble()) return ConstantValue.floatValue(value.asFloat());
-        if(value.isLong()) return ConstantValue.intValue(value.asInt());
+        if (value.isBoolean()) return ConstantValue.booleanValue(value.asBoolean());
+        if (value.isDouble()) return ConstantValue.floatValue(value.asFloat());
+        if (value.isLong()) return ConstantValue.intValue(value.asInt());
 
         throw new RuntimeException("Constant value type not supported: " + value.type());
     }
@@ -107,13 +113,13 @@ public class Parser {
     private Comparator<?> getValueComparator(Value<?> value) {
         Object val = value.get();
 
-        if(val instanceof Integer) {
+        if (val instanceof Integer) {
             return (Comparator<Integer>) Integer::compare;
         }
-        if(val instanceof Float) {
+        if (val instanceof Float) {
             return (Comparator<Float>) Float::compare;
         }
-        if(val instanceof Boolean) {
+        if (val instanceof Boolean) {
             return (Comparator<Boolean>) Boolean::compare;
         }
 
